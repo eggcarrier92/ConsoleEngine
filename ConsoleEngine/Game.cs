@@ -32,17 +32,17 @@ internal class Game
     {
         Screen.Clear();
         Wireframe? cubeWF = Entities[0].GetComponent<Wireframe>();
+        Transform? cubeTransform = Entities[0].GetComponent<Transform>();
 
-        for (int i = 0; i < cubeWF?.Vertices.Count; i++)
-        {
-            cubeWF.Vertices[i] += new Vector3(-1f, 1f, 0f) * 20 * DeltaTime;
-        }
+        cubeTransform?.Translate(new Vector3(0f, 0f, 1f) * 50 * DeltaTime);
+        cubeTransform?.Rotate(Vector3.UnitY, 90f * DeltaTime);
 
         foreach(var entity in Entities)
         {
             Wireframe? entityWireframe = entity.GetComponent<Wireframe>();
-            if (entityWireframe != null)
-                Screen.RenderWireframe(entityWireframe);
+            Transform? entityTransform = entity.GetComponent<Transform>();
+            if (entityWireframe != null && entityTransform != null)
+                Screen.RenderWireframe(entityWireframe, entityTransform);
         }
 
         Screen.Update();

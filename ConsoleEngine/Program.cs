@@ -17,8 +17,12 @@ public static class Program
         game.Entities.Add(cube);
         cube.AddComponents(new()
         {
-            new Transform(entity: cube),
-            Wireframes.Cube(entity: cube)
+            new Transform(
+                position: new Vector3(0f, -25f, 100f),
+                rotation: Quaternion.Identity,
+                scale: Vector3.One * 50f,
+                entity: cube),
+            Wireframes.Pyramid(entity: cube)
         });
         
         game.Run();

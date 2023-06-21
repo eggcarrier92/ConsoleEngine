@@ -8,4 +8,6 @@ internal abstract class EntityComponent
     {
         Entity = entity;
     }
+
+    public virtual void Update() { }
 }

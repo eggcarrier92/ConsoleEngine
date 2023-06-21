@@ -96,9 +96,10 @@ internal class Screen
         }
     }
 
-    public void RenderWireframe(Wireframe wireframe)
+    public void RenderWireframe(Wireframe wireframe, Transform transform)
     {
-        List<Vector2> projectedCube = VertexProjector.GetProjected(wireframe.Vertices, FocalLength);
+        List<Vector2> projectedCube = VertexProjector.GetProjected(
+            wireframe.GetTransformedVertices(transform.TransformationMatrix), FocalLength);
 
         foreach (var edge in wireframe.Edges)
         {
