@@ -98,18 +98,24 @@ internal class Screen
 
     public void RenderWireframe(Wireframe wireframe, Transform transform)
     {
-        List<Vector2> projectedCube = VertexProjector.GetProjected(
-            wireframe.GetTransformedVertices(transform.TransformationMatrix), FocalLength);
+        //List<Vector2> projectedWireframe = VertexProjector.GetProjected(
+        //    wireframe.GetTransformedVertices(transform.TransformationMatrix), FocalLength);
 
-        foreach (var edge in wireframe.Edges)
+
+
+        foreach ((int, int) edge in wireframe.Indices)
         {
-            Vector2 point1 = projectedCube[edge.Item1];
-            Vector2 point2 = projectedCube[edge.Item2];
-            int x1 = (int)Math.Round(point1.X);
-            int x2 = (int)Math.Round(point2.X);
-            int y1 = (int)Math.Round(point1.Y);
-            int y2 = (int)Math.Round(point2.Y);
-            DrawLine(x1, y1, x2, y2);
+            Vector3 vertex1 = wireframe.GetTransformedVertices(transform.TransformationMatrix)[edge.Item1];
+            Vector3 vertex2 = wireframe.GetTransformedVertices(transform.TransformationMatrix)[edge.Item2];
+            if (true || vertex1.Z >= FocalLength && vertex2.Z >= FocalLength)
+            {
+                int projectedX1 = (int)Math.Round(FocalLength * vertex1.X / vertex1.Z);
+                int projectedY1 = (int)Math.Round(FocalLength * vertex1.Y / vertex1.Z);
+                int projectedX2 = (int)Math.Round(FocalLength * vertex2.X / vertex2.Z);
+                int projectedY2 = (int)Math.Round(FocalLength * vertex2.Y / vertex2.Z);
+
+                DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
+            }
         }
     }
 }

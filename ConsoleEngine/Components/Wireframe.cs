@@ -4,13 +4,19 @@ namespace ConsoleEngine.Components;
 
 internal class Wireframe : EntityComponent
 {
-    public List<Vector3> Vertices { get; set; }
-    public List<(int, int)> Edges { get; }
+    public List<Vector3> Vertices { get; }
+    public List<(int, int)> Indices { get; }
+    public List<WireframeEdge> Edges { get; }
 
-    public Wireframe(List<Vector3> vertices, List<(int, int)> edges, Entity? entity) : base(entity)
+    public Wireframe(List<Vector3> vertices, List<(int, int)> indices, Entity? entity) : base(entity)
     {
         Vertices = vertices;
-        Edges = edges;
+        Indices = indices;
+        Edges = new();
+        foreach (var edge in indices)
+        {
+            Edges.Add(new(Vertices[edge.Item1], Vertices[edge.Item2]));
+        }
     }
 
     public List<Vector3> GetTransformedVertices(Matrix4x4 transformationMatrix)
@@ -38,7 +44,7 @@ internal static class Wireframes
             new(-1f,  1f,  1f),    // 6
             new( 1f,  1f,  1f),    // 7
         },
-        edges: new()
+        indices: new()
         {
             (0, 1),
             (1, 3),
@@ -64,7 +70,7 @@ internal static class Wireframes
             new( 1f, 0f,  1f),
             new(0f, 2f, 0f)
         },
-        edges: new()
+        indices: new()
         {
             (0,1),
             (0,2),

@@ -34,7 +34,7 @@ internal class Game
         Wireframe? cubeWF = Entities[0].GetComponent<Wireframe>();
         Transform? cubeTransform = Entities[0].GetComponent<Transform>();
 
-        cubeTransform?.Translate(new Vector3(0f, 0f, 1f) * 50 * DeltaTime);
+        cubeTransform?.Translate(new Vector3(0f, 0f, -1f) * 50 * DeltaTime);
         cubeTransform?.Rotate(Vector3.UnitY, 90f * DeltaTime);
 
         foreach(var entity in Entities)
