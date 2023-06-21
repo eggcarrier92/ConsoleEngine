@@ -18,7 +18,7 @@ public static class Program
         cube.AddComponents(new()
         {
             new Transform(
-                position: new Vector3(0f, -25f, 100f),
+                position: new Vector3(0f, -25f, 200f),
                 rotation: Quaternion.Identity,
                 scale: Vector3.One * 50f,
                 entity: cube),

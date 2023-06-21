@@ -98,21 +98,36 @@ internal class Screen
 
     public void RenderWireframe(Wireframe wireframe, Transform transform)
     {
-        //List<Vector2> projectedWireframe = VertexProjector.GetProjected(
-        //    wireframe.GetTransformedVertices(transform.TransformationMatrix), FocalLength);
-
-
-
         foreach ((int, int) edge in wireframe.Indices)
         {
             Vector3 vertex1 = wireframe.GetTransformedVertices(transform.TransformationMatrix)[edge.Item1];
             Vector3 vertex2 = wireframe.GetTransformedVertices(transform.TransformationMatrix)[edge.Item2];
-            if (true || vertex1.Z >= FocalLength && vertex2.Z >= FocalLength)
+            if (vertex1.Z >= FocalLength && vertex2.Z >= FocalLength)
             {
                 int projectedX1 = (int)Math.Round(FocalLength * vertex1.X / vertex1.Z);
                 int projectedY1 = (int)Math.Round(FocalLength * vertex1.Y / vertex1.Z);
                 int projectedX2 = (int)Math.Round(FocalLength * vertex2.X / vertex2.Z);
                 int projectedY2 = (int)Math.Round(FocalLength * vertex2.Y / vertex2.Z);
+
+                DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
+            }
+            if (vertex1.Z >= FocalLength && vertex2.Z < FocalLength)
+            {
+                int projectedX1 = (int)Math.Round(FocalLength * vertex1.X / vertex1.Z);
+                int projectedY1 = (int)Math.Round(FocalLength * vertex1.Y / vertex1.Z);
+
+                int projectedX2 = (int)Math.Round((FocalLength - vertex1.Z) * (vertex2.X - vertex1.X) / (vertex2.Z - vertex1.Z) + vertex1.X);
+                int projectedY2 = (int)Math.Round((FocalLength - vertex1.Z) * (vertex2.Y - vertex1.Y) / (vertex2.Z - vertex1.Z) + vertex1.Y);
+             
+                DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
+            }
+            if (vertex1.Z < FocalLength && vertex2.Z >= FocalLength)
+            {
+                int projectedX2 = (int)Math.Round(FocalLength * vertex2.X / vertex2.Z);
+                int projectedY2 = (int)Math.Round(FocalLength * vertex2.Y / vertex2.Z);
+
+                int projectedX1 = (int)Math.Round((FocalLength - vertex2.Z) * (vertex1.X - vertex2.X) / (vertex1.Z - vertex2.Z) + vertex2.X);
+                int projectedY1 = (int)Math.Round((FocalLength - vertex2.Z) * (vertex1.Y - vertex2.Y) / (vertex1.Z - vertex2.Z) + vertex2.Y);
 
                 DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
             }
