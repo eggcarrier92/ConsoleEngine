@@ -29,9 +29,6 @@ internal class Game
         }
     }
 
-    private bool rPressed;
-
-
     private void Update()
     {
         Screen.Clear();

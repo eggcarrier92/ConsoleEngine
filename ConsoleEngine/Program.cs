@@ -9,7 +9,6 @@ public static class Program
     private const int ScreenHeight = 75;
     private const float focalLength = 75;
 
-    [STAThread]
     private static void Main()
     {
         Game game = new(ScreenWidth, ScreenHeight, focalLength);
