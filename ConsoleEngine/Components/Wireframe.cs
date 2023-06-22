@@ -6,17 +6,11 @@ internal class Wireframe : EntityComponent
 {
     public List<Vector3> Vertices { get; }
     public List<(int, int)> Indices { get; }
-    public List<WireframeEdge> Edges { get; }
 
     public Wireframe(List<Vector3> vertices, List<(int, int)> indices, Entity? entity) : base(entity)
     {
         Vertices = vertices;
         Indices = indices;
-        Edges = new();
-        foreach (var edge in indices)
-        {
-            Edges.Add(new(Vertices[edge.Item1], Vertices[edge.Item2]));
-        }
     }
 
     public List<Vector3> GetTransformedVertices(Matrix4x4 transformationMatrix)

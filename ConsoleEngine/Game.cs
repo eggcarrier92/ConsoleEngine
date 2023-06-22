@@ -19,6 +19,7 @@ internal class Game
     public void Run()
     {
         long microsecondsOld = DateTime.Now.Ticks / TimeSpan.TicksPerMicrosecond;
+
         while (true)
         {
             long microseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMicrosecond;
@@ -28,14 +29,20 @@ internal class Game
         }
     }
 
+    private bool rPressed;
+
+
     private void Update()
     {
         Screen.Clear();
-        Wireframe? cubeWF = Entities[0].GetComponent<Wireframe>();
+
+        //Wireframe? cubeWF = Entities[0].GetComponent<Wireframe>();
         Transform? cubeTransform = Entities[0].GetComponent<Transform>();
 
-        cubeTransform?.Translate(new Vector3(0f, 0f, -1f) * 50 * DeltaTime);
-        cubeTransform?.Rotate(Vector3.UnitY, 90f * DeltaTime);
+        //cubeTransform?.Translate(new Vector3(0f, 0f, -1f) * 50 * DeltaTime);
+
+        //if (Console.KeyAvailable && Console.ReadKey(true).KeyChar == 'w')
+            cubeTransform?.Rotate(Vector3.UnitY, 90f * DeltaTime);
 
         foreach(var entity in Entities)
         {

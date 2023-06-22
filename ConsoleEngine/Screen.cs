@@ -102,6 +102,8 @@ internal class Screen
         {
             Vector3 vertex1 = wireframe.GetTransformedVertices(transform.TransformationMatrix)[edge.Item1];
             Vector3 vertex2 = wireframe.GetTransformedVertices(transform.TransformationMatrix)[edge.Item2];
+
+            // If the line between vertex1 and vertex2 is in front of the clipping plane, do a normal projection
             if (vertex1.Z >= FocalLength && vertex2.Z >= FocalLength)
             {
                 int projectedX1 = (int)Math.Round(FocalLength * vertex1.X / vertex1.Z);
@@ -111,6 +113,9 @@ internal class Screen
 
                 DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
             }
+            // If the line between vertex1 and vertex2 intersects the clipping plane, 
+            // find the point of intersection and connect the vertex that is in front
+            // of the clipping plane and that point
             if (vertex1.Z >= FocalLength && vertex2.Z < FocalLength)
             {
                 int projectedX1 = (int)Math.Round(FocalLength * vertex1.X / vertex1.Z);
@@ -118,19 +123,20 @@ internal class Screen
 
                 int projectedX2 = (int)Math.Round((FocalLength - vertex1.Z) * (vertex2.X - vertex1.X) / (vertex2.Z - vertex1.Z) + vertex1.X);
                 int projectedY2 = (int)Math.Round((FocalLength - vertex1.Z) * (vertex2.Y - vertex1.Y) / (vertex2.Z - vertex1.Z) + vertex1.Y);
-             
+
                 DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
             }
             if (vertex1.Z < FocalLength && vertex2.Z >= FocalLength)
             {
-                int projectedX2 = (int)Math.Round(FocalLength * vertex2.X / vertex2.Z);
-                int projectedY2 = (int)Math.Round(FocalLength * vertex2.Y / vertex2.Z);
-
                 int projectedX1 = (int)Math.Round((FocalLength - vertex2.Z) * (vertex1.X - vertex2.X) / (vertex1.Z - vertex2.Z) + vertex2.X);
                 int projectedY1 = (int)Math.Round((FocalLength - vertex2.Z) * (vertex1.Y - vertex2.Y) / (vertex1.Z - vertex2.Z) + vertex2.Y);
 
+                int projectedX2 = (int)Math.Round(FocalLength * vertex2.X / vertex2.Z);
+                int projectedY2 = (int)Math.Round(FocalLength * vertex2.Y / vertex2.Z);
+
                 DrawLine(projectedX1, projectedY1, projectedX2, projectedY2);
             }
+            // If both vertices are behind the clipping plane, do not do anything
         }
     }
 }
